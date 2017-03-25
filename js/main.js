@@ -1,3 +1,26 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+jQuery(document).ready(function() {
 
-},{}]},{},[1])
+	/* How to Handle Hashtags */
+	jQuery(window).hashchange(function(){
+		var hash = location.hash;
+		jQuery('a[href='+hash+']').trigger('click');
+	});
+	jQuery('section.content.hide').hide();
+	/* Main Navigation Clicks */
+	jQuery('.main-nav ul li a').click(function() {
+		var link = jQuery(this).attr('href').substr(1);
+		
+		if ( !jQuery('section.content.show, section#' + link).is(':animated') ) {
+			jQuery('.main-nav ul li a').removeClass('active'); //remove active
+			jQuery('section.content.show').addClass('show').animate({'opacity' : 0}, {queue: false, duration: 1000,
+				complete: function() {
+					jQuery('section.content.show').hide();
+					jQuery('a[href="#'+link+'"]').addClass('active'); // add active
+					jQuery('section#' + link).show();
+					jQuery('section#' + link).addClass('show').animate({'opacity' : 1}, {queue: false, duration: 1000});	
+				}
+			});
+		}
+	});
+
+});
